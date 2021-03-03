@@ -179,7 +179,7 @@ describe("ArtistMetaCanonicalLink", () => {
     )
 
     expect(wrapper.html()).toEqual(
-      '<link rel="canonical" href="https://www.artsy-test.net/artist/damon-zucconi">'
+      '<link rel="canonical" href="https://www.artsy-test.net/artist/damon-zucconi/consign">'
     )
   })
 
@@ -189,9 +189,9 @@ describe("ArtistMetaCanonicalLink", () => {
         <ArtistMetaCanonicalLink artist={MISSING_OVERVIEW_ARTIST_FIXTURE} />
       </HeadProvider>
     )
-
+    console.log(wrapper.html())
     expect(wrapper.html()).toEqual(
-      '<link rel="canonical" href="https://www.artsy-test.net/artist/gina-lombardi-bratter/works-for-sale">'
+      '<link rel="canonical" href="https://www.artsy-test.net/artist/gina-lombardi-bratter">'
     )
   })
 })
