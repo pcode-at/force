@@ -9,16 +9,13 @@ require 'jquery'
 Backbone = require 'backbone'
 Backbone.$ = $
 
-_ = require 'underscore'
 FastClick = require 'fastclick'
-RavenClient = require 'raven-js'
 sd = require('sharify').data
 Cookies = require 'cookies-js'
 { parse } = require 'url'
 doc = window.document
-sharify = require('sharify')
 CurrentUser = require '../../models/current_user'
-Sentry = require("@sentry/browser")
+{ init } = require("@sentry/browser")
 globalReactModules = require('../../../desktop/lib/global_react_modules.tsx')
 hydrateStitch = require('@artsy/stitch/dist/internal/hydrate').hydrate
 { mediator } = require('../../../lib/mediator')
@@ -63,7 +60,7 @@ mountStitch = ->
   })
 
 setupErrorReporting = ->
-  Sentry.init({ dsn: sd.SENTRY_PUBLIC_DSN })
+  init({ dsn: sd.SENTRY_PUBLIC_DSN })
 
 operations =
   save: (currentUser, objectId) ->

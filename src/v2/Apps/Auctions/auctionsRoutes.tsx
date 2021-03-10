@@ -41,12 +41,8 @@ export const auctionsRoutes = [
         },
         query: graphql`
           query auctionsRoutes_Current_AuctionsQuery {
-            currentAuctions: salesConnection(
-              first: 99
-              published: true
-              sort: START_AT_ASC
-            ) {
-              ...CurrentAuctions_currentAuctions
+            salesConnection(first: 99, published: true, sort: START_AT_ASC) {
+              ...CurrentAuctions_salesConnection
             }
           }
         `,
@@ -59,12 +55,13 @@ export const auctionsRoutes = [
         },
         query: graphql`
           query auctionsRoutes_Upcoming_AuctionsQuery {
-            upcomingAuctions: salesConnection(
+            salesConnection(
               first: 99
-              published: true
-              sort: START_AT_ASC
+              live: true
+              published: false
+              sort: END_AT_ASC
             ) {
-              ...UpcomingAuctions_upcomingAuctions
+              ...UpcomingAuctions_salesConnection
             }
           }
         `,
@@ -77,13 +74,13 @@ export const auctionsRoutes = [
         },
         query: graphql`
           query auctionsRoutes_Past_AuctionsQuery {
-            pastAuctions: salesConnection(
-              first: 20
-              published: true
+            salesConnection(
+              first: 30
+              published: false
               live: false
               sort: START_AT_ASC
             ) {
-              ...PastAuctions_pastAuctions
+              ...PastAuctions_salesConnection
             }
           }
         `,
