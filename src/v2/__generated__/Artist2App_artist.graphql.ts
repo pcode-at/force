@@ -4,7 +4,10 @@
 import { ReaderFragment } from "relay-runtime";
 import { FragmentRefs } from "relay-runtime";
 export type Artist2App_artist = {
-    readonly id: string;
+    readonly internalID: string;
+    readonly name: string | null;
+    readonly slug: string;
+    readonly " $fragmentRefs": FragmentRefs<"Artist2Meta_artist">;
     readonly " $refType": "Artist2App_artist";
 };
 export type Artist2App_artist$data = Artist2App_artist;
@@ -25,11 +28,30 @@ const node: ReaderFragment = {
       "alias": null,
       "args": null,
       "kind": "ScalarField",
-      "name": "id",
+      "name": "internalID",
       "storageKey": null
+    },
+    {
+      "alias": null,
+      "args": null,
+      "kind": "ScalarField",
+      "name": "name",
+      "storageKey": null
+    },
+    {
+      "alias": null,
+      "args": null,
+      "kind": "ScalarField",
+      "name": "slug",
+      "storageKey": null
+    },
+    {
+      "args": null,
+      "kind": "FragmentSpread",
+      "name": "Artist2Meta_artist"
     }
   ],
   "type": "Artist"
 };
-(node as any).hash = '7b88650e1330aa1df230081098e072c1';
+(node as any).hash = '558e706b8e4767a7a003afd9f7995d1f';
 export default node;
