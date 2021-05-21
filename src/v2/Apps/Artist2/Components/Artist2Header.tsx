@@ -1,13 +1,14 @@
 import { Button, Column, GridColumns, Text } from "@artsy/palette"
 import React from "react"
 import { createFragmentContainer, graphql } from "react-relay"
+import { SelectedCareerAchievementsFragmentContainer } from "v2/Components/SelectedCareerAchievements"
 import { Artist2Header_artist } from "v2/__generated__/Artist2Header_artist.graphql"
 
 interface Artist2HeaderProps {
   artist: Artist2Header_artist
 }
 
-const Artist2Header: React.FC<Artist2HeaderProps> = props => {
+const Artist2Header: React.FC<Artist2HeaderProps> = ({ artist }) => {
   return (
     <GridColumns mt={4}>
       <Column span={6}>
@@ -49,15 +50,7 @@ const Artist2Header: React.FC<Artist2HeaderProps> = props => {
           Urgency XXIV (2006).
         </Text>
 
-        <Text variant="xs" textTransform="uppercase" mb={1}>
-          Stats
-        </Text>
-
-        <Text variant="sm">
-          £549k Auction Record
-          <br />
-          Blue Chip Representation
-        </Text>
+        <SelectedCareerAchievementsFragmentContainer artist={artist} />
       </Column>
     </GridColumns>
   )
@@ -68,7 +61,7 @@ export const Artist2HeaderFragmentContainer = createFragmentContainer(
   {
     artist: graphql`
       fragment Artist2Header_artist on Artist {
-        id
+        ...SelectedCareerAchievements_artist
       }
     `,
   }

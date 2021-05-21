@@ -1,4 +1,4 @@
-import { BorderBox, Flex, Spacer } from "@artsy/palette"
+import { BorderBox, Flex, Spacer, useThemeConfig } from "@artsy/palette"
 import { SelectedCareerAchievements_artist } from "v2/__generated__/SelectedCareerAchievements_artist.graphql"
 import {
   hasSections,
@@ -12,6 +12,7 @@ import { createFragmentContainer, graphql } from "react-relay"
 
 export interface SelectedCareerAchievementsProps {
   artist: SelectedCareerAchievements_artist
+  themeTokens?: any // FIXME
 }
 
 const CATEGORIES = {
@@ -52,6 +53,7 @@ export class SelectedCareerAchievements extends React.Component<
         type="HIGH_AUCTION"
         label="High auction record"
         value={display}
+        themeTokens={this.props.themeTokens}
       />
     )
   }
@@ -74,6 +76,7 @@ export class SelectedCareerAchievements extends React.Component<
           type={type}
           label={label}
           value={CATEGORY_LABEL_MAP[highCategory]}
+          themeTokens={this.props.themeTokens}
         />
       )
     }
@@ -86,6 +89,7 @@ export class SelectedCareerAchievements extends React.Component<
         type={insight.type}
         label={insight.label}
         entities={insight.entities}
+        themeTokens={this.props.themeTokens}
       />
     )
   }
@@ -99,37 +103,63 @@ export class SelectedCareerAchievements extends React.Component<
       return null
     }
 
-    return (
-      <>
-        <ArtistInsightsModal />
-        <Spacer mb={2} />
+    if (this.props.themeTokens.v2) {
+      return (
+        <>
+          <ArtistInsightsModal />
+          <Spacer mb={2} />
 
-        <BorderBox pt={1}>
-          <Flex flexDirection="column" alignItems="left" width="100%">
-            <Flex
-              flexDirection="column"
-              flexWrap="wrap"
-              justifyContent="space-between"
-            >
-              {this.renderGalleryRepresentation()}
-              {this.renderAuctionHighlight()}
+          <BorderBox pt={1}>
+            <Flex flexDirection="column" alignItems="left" width="100%">
+              <Flex
+                flexDirection="column"
+                flexWrap="wrap"
+                justifyContent="space-between"
+              >
+                {this.renderGalleryRepresentation()}
+                {this.renderAuctionHighlight()}
 
-              {/*  @ts-expect-error STRICT_NULL_CHECK */}
-              {this.props.artist.insights.map(insight => {
-                return this.renderInsight(insight)
-              })}
+                {/*  @ts-expect-error STRICT_NULL_CHECK */}
+                {this.props.artist.insights.map(insight => {
+                  return this.renderInsight(insight)
+                })}
+              </Flex>
             </Flex>
-          </Flex>
-        </BorderBox>
+          </BorderBox>
 
-        {this.props.children}
-      </>
+          {this.props.children}
+        </>
+      )
+    }
+
+    // V3 theme
+    return (
+      <Flex flexWrap="wrap" flexDirection="row">
+        {this.renderGalleryRepresentation()}
+        {this.renderAuctionHighlight()}
+
+        {/*  @ts-expect-error STRICT_NULL_CHECK */}
+        {this.props.artist.insights.map(insight => {
+          return this.renderInsight(insight)
+        })}
+      </Flex>
     )
   }
 }
 
 export const SelectedCareerAchievementsFragmentContainer = createFragmentContainer(
-  SelectedCareerAchievements,
+  (props: SelectedCareerAchievementsProps) => {
+    const tokens = useThemeConfig({
+      v2: {
+        version: "v2",
+      },
+      v3: {
+        version: "v3",
+      },
+    })
+
+    return <SelectedCareerAchievements {...props} themeTokens={tokens} />
+  },
   {
     artist: graphql`
       fragment SelectedCareerAchievements_artist on Artist
