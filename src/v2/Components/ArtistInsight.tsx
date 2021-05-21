@@ -20,7 +20,7 @@ interface ArtistInsightProps {
   label: string
   value?: string
   entities?: ReadonlyArray<string>
-  themeTokens?: any // FIXME
+  themeVersion?: any // FIXME
 }
 
 const ICON_MAPPING = {
@@ -54,9 +54,9 @@ export class ArtistInsight extends React.Component<ArtistInsightProps> {
   }
 
   getTextByTheme() {
-    if (this.props.themeTokens.version === "v3") {
+    if (this.props.themeVersion === "v3") {
       return props => (
-        <Text variant="xs" {...props}>
+        <Text variant="sm" {...props}>
           {props.children}
         </Text>
       )
@@ -114,9 +114,16 @@ export class ArtistInsight extends React.Component<ArtistInsightProps> {
       return (
         <Flex
           mt={1}
-          width={this.props.themeTokens?.version === "v3" ? "50%" : "100%"}
+          width={this.props.themeVersion === "v3" ? "50%" : "100%"}
+          position="relative"
         >
-          <Flex pr={1}>{this.renderIcon(type)}</Flex>
+          <Flex
+            pr={1}
+            top={this.props.themeVersion === "v2" ? 0 : "3px"}
+            position="relative"
+          >
+            {this.renderIcon(type)}
+          </Flex>
           <Flex flexDirection="column">
             <Box>
               <TextWrapper>{label}</TextWrapper>

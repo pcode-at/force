@@ -12,7 +12,8 @@ import { createFragmentContainer, graphql } from "react-relay"
 
 export interface SelectedCareerAchievementsProps {
   artist: SelectedCareerAchievements_artist
-  themeTokens?: any // FIXME
+  themeVersion?: string
+  onlyCareerHighlights?: boolean
 }
 
 const CATEGORIES = {
@@ -31,6 +32,10 @@ export class SelectedCareerAchievements extends React.Component<
 > {
   state = {
     showModal: false,
+  }
+
+  defaultProps: {
+    onlyCareerHighlights: false
   }
 
   renderAuctionHighlight() {
@@ -53,7 +58,7 @@ export class SelectedCareerAchievements extends React.Component<
         type="HIGH_AUCTION"
         label="High auction record"
         value={display}
-        themeTokens={this.props.themeTokens}
+        themeVersion={this.props.themeVersion}
       />
     )
   }
@@ -76,7 +81,7 @@ export class SelectedCareerAchievements extends React.Component<
           type={type}
           label={label}
           value={CATEGORY_LABEL_MAP[highCategory]}
-          themeTokens={this.props.themeTokens}
+          themeVersion={this.props.themeVersion}
         />
       )
     }
@@ -89,7 +94,7 @@ export class SelectedCareerAchievements extends React.Component<
         type={insight.type}
         label={insight.label}
         entities={insight.entities}
-        themeTokens={this.props.themeTokens}
+        themeVersion={this.props.themeVersion}
       />
     )
   }
@@ -103,7 +108,7 @@ export class SelectedCareerAchievements extends React.Component<
       return null
     }
 
-    if (this.props.themeTokens.v2) {
+    if (this.props.themeVersion === "v2") {
       return (
         <>
           <ArtistInsightsModal />
@@ -134,15 +139,20 @@ export class SelectedCareerAchievements extends React.Component<
 
     // V3 theme
     return (
-      <Flex flexWrap="wrap" flexDirection="row">
-        {this.renderGalleryRepresentation()}
-        {this.renderAuctionHighlight()}
-
-        {/*  @ts-expect-error STRICT_NULL_CHECK */}
-        {this.props.artist.insights.map(insight => {
-          return this.renderInsight(insight)
-        })}
-      </Flex>
+      <>
+        {this.props.onlyCareerHighlights ? (
+          <Flex flexWrap="wrap" pr={2}>
+            {this.props.artist?.insights?.map(insight => {
+              return this.renderInsight(insight)
+            })}
+          </Flex>
+        ) : (
+          <Flex flexDirection="column">
+            {this.renderGalleryRepresentation()}
+            {this.renderAuctionHighlight()}
+          </Flex>
+        )}
+      </>
     )
   }
 }
@@ -158,7 +168,9 @@ export const SelectedCareerAchievementsFragmentContainer = createFragmentContain
       },
     })
 
-    return <SelectedCareerAchievements {...props} themeTokens={tokens} />
+    return (
+      <SelectedCareerAchievements {...props} themeVersion={tokens.version} />
+    )
   },
   {
     artist: graphql`
