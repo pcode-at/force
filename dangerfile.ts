@@ -1,7 +1,7 @@
 /* eslint-disable jest/no-jasmine-globals */
 import { warn, danger, markdown } from "danger"
 import * as fs from "fs"
-// import { getBreakingChanges } from "./scripts/validateSchemas"
+import { getBreakingChanges } from "./scripts/validateSchemas"
 
 /**
  * Helpers
@@ -34,7 +34,7 @@ function preventDefaultQueryRenderImport() {
     return content.includes("<QueryRenderer")
   })
   if (newQueryRendererImports.length > 0) {
-    warn(`importing query renderer..., ${newQueryRendererImports
+    fail(`importing query renderer..., ${newQueryRendererImports
       .map(filename => `- \`${filename}\``)
       .join("\n")}
     console.log("hi")
@@ -68,5 +68,5 @@ async function checkIfMetaphysicsSchemaIsInSync() {
 ;(async function () {
   preventNewJSFilesFromBeingCreated()
   preventDefaultQueryRenderImport()
-  // await checkIfMetaphysicsSchemaIsInSync()
+  await checkIfMetaphysicsSchemaIsInSync()
 })()
