@@ -1,10 +1,19 @@
 /* eslint-disable jest/no-jasmine-globals */
 import { warn, danger, markdown } from "danger"
+import * as fs from "fs"
 // import { getBreakingChanges } from "./scripts/validateSchemas"
 
-function preventNewJSFilesFromBeingCreated() {
-  fail("failed...")
+/**
+ * Helpers
+ */
+const filesOnly = (file: string) =>
+  fs.existsSync(file) && fs.lstatSync(file).isFile()
 
+// Modified or Created can be treated the same a lot of the time
+const getCreatedFiles = (createdFiles: string[]) =>
+  createdFiles.filter(filesOnly)
+
+function preventNewJSFilesFromBeingCreated() {
   // Warn about creating new JS files
   const jsFiles = danger.git.created_files.filter(
     f => f.includes("src") && f.endsWith(".js")
@@ -14,6 +23,22 @@ function preventNewJSFilesFromBeingCreated() {
     warn(
       `Please don't include .js files, we want to be using TypeScript found: ${files}.`
     )
+  }
+}
+
+function preventDefaultQueryRenderImport() {
+  const newQueryRendererImports = getCreatedFiles(
+    danger.git.created_files
+  ).filter(filename => {
+    const content = fs.readFileSync(filename).toString()
+    return content.includes("<QueryRenderer")
+  })
+  if (newQueryRendererImports.length > 0) {
+    warn(`importing query renderer..., ${newQueryRendererImports
+      .map(filename => `- \`${filename}\``)
+      .join("\n")}
+    console.log("hi")
+  }`)
   }
 }
 
@@ -42,5 +67,6 @@ async function checkIfMetaphysicsSchemaIsInSync() {
 
 ;(async function () {
   preventNewJSFilesFromBeingCreated()
-  // checkIfMetaphysicsSchemaIsInSync()
-})
+  preventDefaultQueryRenderImport()
+  // await checkIfMetaphysicsSchemaIsInSync()
+})()
