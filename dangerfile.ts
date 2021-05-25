@@ -1,8 +1,10 @@
+/* eslint-disable jest/no-jasmine-globals */
 import { warn, danger, markdown } from "danger"
-import { getBreakingChanges } from "./scripts/validateSchemas"
+// import { getBreakingChanges } from "./scripts/validateSchemas"
 
-// tslint:disable-next-line:no-default-export
-export default async () => {
+function preventNewJSFilesFromBeingCreated() {
+  fail("failed...")
+
   // Warn about creating new JS files
   const jsFiles = danger.git.created_files.filter(
     f => f.includes("src") && f.endsWith(".js")
@@ -13,7 +15,9 @@ export default async () => {
       `Please don't include .js files, we want to be using TypeScript found: ${files}.`
     )
   }
+}
 
+async function checkIfMetaphysicsSchemaIsInSync() {
   const isReleasePR = danger.github.pr.base.ref === "release"
   const versionToCheck = isReleasePR ? "production" : "staging"
   const changes: string[] = await getBreakingChanges(versionToCheck, 2)
@@ -35,3 +39,8 @@ export default async () => {
     markdown(changes.map(change => `- :warning: ${change}`).join("\n"))
   }
 }
+
+;(async function () {
+  preventNewJSFilesFromBeingCreated()
+  // checkIfMetaphysicsSchemaIsInSync()
+})
