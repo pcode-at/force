@@ -148,13 +148,13 @@ export const artist2Routes: AppRouteConfig[] = [
           }
         },
         query: graphql`
-          query artistRoutes_WorksQuery(
+          query artist2Routes_WorksForSaleQuery(
             $artistID: String!
             $input: FilterArtworksInput
             $aggregations: [ArtworkAggregation]
           ) @raw_response_type {
             artist(id: $artistID) {
-              ...Works_artist
+              ...ArtistWorksForSaleRoute_artist
                 @arguments(input: $input, aggregations: $aggregations)
             }
           }
