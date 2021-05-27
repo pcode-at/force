@@ -15,7 +15,7 @@ const BackLink: React.FC<BackLinkProps> = ({ artist }) => {
 
   return (
     <RouterLink
-      to={`/artist/${artist.slug}`}
+      to={`/artist2/${artist.slug}`}
       onClick={() =>
         trackEvent({
           action_type: AnalyticsSchema.ActionType.Click,

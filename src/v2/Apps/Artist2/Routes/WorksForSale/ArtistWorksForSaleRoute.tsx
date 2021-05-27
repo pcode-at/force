@@ -1,5 +1,5 @@
 import React from "react"
-import { Box } from "@artsy/palette"
+import { Spacer } from "@artsy/palette"
 import { createFragmentContainer, graphql } from "react-relay"
 import { Artist2ArtworkFilterRefetchContainer } from "./Components/Artist2ArtworkFilter"
 import { ArtistWorksForSaleRoute_artist } from "v2/__generated__/ArtistWorksForSaleRoute_artist.graphql"
@@ -16,13 +16,12 @@ const ArtistWorksForSaleRoute: React.FC<ArtistWorksForSaleRouteProps> = ({
 }) => {
   return (
     <>
-      <Box mt={4} mb={6}>
-        <ArtistSeriesRailFragmentContainer
-          artist={artist}
-          contextModule={ContextModule.artistSeriesRail}
-          showProgress
-        />
-      </Box>
+      <ArtistSeriesRailFragmentContainer
+        artist={artist}
+        contextModule={ContextModule.artistSeriesRail}
+        showProgress
+      />
+      <Spacer my={6} />
       <Artist2ArtworkFilterRefetchContainer
         artist={artist}
         aggregations={
