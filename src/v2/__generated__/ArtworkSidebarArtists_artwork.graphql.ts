@@ -10,6 +10,7 @@ export type ArtworkSidebarArtists_artwork = {
         readonly internalID: string;
         readonly slug: string;
         readonly name: string | null;
+        readonly formattedNationalityAndBirthday: string | null;
         readonly href: string | null;
         readonly " $fragmentRefs": FragmentRefs<"FollowArtistButton_artist">;
     } | null> | null;
@@ -83,6 +84,13 @@ const node: ReaderFragment = {
           "alias": null,
           "args": null,
           "kind": "ScalarField",
+          "name": "formattedNationalityAndBirthday",
+          "storageKey": null
+        },
+        {
+          "alias": null,
+          "args": null,
+          "kind": "ScalarField",
           "name": "href",
           "storageKey": null
         },
@@ -103,5 +111,5 @@ const node: ReaderFragment = {
   ],
   "type": "Artwork"
 };
-(node as any).hash = '961d703b4bbc396cc6aaf106c649a11d';
+(node as any).hash = '6c7e42a890b51c8877e653246d4a7217';
 export default node;

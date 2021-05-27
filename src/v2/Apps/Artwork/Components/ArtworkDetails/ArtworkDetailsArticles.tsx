@@ -3,8 +3,9 @@ import { ArticleItem } from "v2/Apps/Artist/Routes/Articles/ArtistArticle"
 import React from "react"
 import { createFragmentContainer, graphql } from "react-relay"
 import { get } from "v2/Utils/get"
-
 import { ArtworkDetailsArticles_artwork } from "v2/__generated__/ArtworkDetailsArticles_artwork.graphql"
+
+// TODO:
 
 export interface ArtworkDetailsArticlesProps {
   artwork: ArtworkDetailsArticles_artwork

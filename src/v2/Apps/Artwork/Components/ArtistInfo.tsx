@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   EntityHeader,
   Flex,
@@ -14,11 +15,9 @@ import * as Schema from "v2/Artsy/Analytics/Schema"
 import { renderWithLoadProgress } from "v2/Artsy/Relay/renderWithLoadProgress"
 import { SystemQueryRenderer as QueryRenderer } from "v2/Artsy/Relay/SystemQueryRenderer"
 import { FollowArtistButtonFragmentContainer as FollowArtistButton } from "v2/Components/FollowButton/FollowArtistButton"
-
 import { ArtistBioFragmentContainer as ArtistBio } from "v2/Components/ArtistBio"
 import { ArtistMarketInsightsFragmentContainer as ArtistMarketInsights } from "v2/Components/ArtistMarketInsights"
 import { SelectedExhibitionFragmentContainer as SelectedExhibitions } from "v2/Components/SelectedExhibitions"
-
 import { ContextModule } from "@artsy/cohesion"
 import { MIN_EXHIBITIONS } from "v2/Components/SelectedExhibitions"
 import React, { Component } from "react"
@@ -104,38 +103,26 @@ export class ArtistInfo extends Component<ArtistInfoProps, ArtistInfoState> {
 
     return (
       <>
-        <StackableBorderBox p={2} flexDirection="column" data-test="artistInfo">
+        <StackableBorderBox flexDirection="column" data-test="artistInfo">
           <EntityHeader
-            // @ts-expect-error STRICT_NULL_CHECK
-            name={artist.name}
-            // @ts-expect-error STRICT_NULL_CHECK
-            meta={artist.formatted_nationality_and_birthday}
+            justifyContent="flex-start"
+            name={artist.name!}
+            href={artist.href!}
+            meta={artist.formatted_nationality_and_birthday!}
             imageUrl={imageUrl}
-            // @ts-expect-error STRICT_NULL_CHECK
-            href={artist.href}
             FollowButton={
               <FollowArtistButton
                 artist={artist}
                 contextModule={ContextModule.aboutTheWork}
-                render={({ is_followed }) => {
-                  return (
-                    <Text
-                      data-test="followButton"
-                      style={{
-                        cursor: "pointer",
-                        textDecoration: "underline",
-                      }}
-                    >
-                      {is_followed ? "Following" : "Follow"}
-                    </Text>
-                  )
-                }}
+                buttonProps={{ size: "small" }}
               />
             }
           />
+
           {showArtistBio && (
             <>
-              <Spacer mb={1} />
+              <Spacer mt={1} />
+
               <ArtistBio
                 bio={artist}
                 onReadMoreClicked={this.trackArtistBioReadMoreClick.bind(this)}

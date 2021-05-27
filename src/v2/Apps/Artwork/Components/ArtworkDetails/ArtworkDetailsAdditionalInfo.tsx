@@ -1,10 +1,10 @@
 import {
   Clickable,
-  Col,
-  Grid,
+  Flex,
   HTML,
+  Join,
   ReadMore,
-  Row,
+  Spacer,
   StackableBorderBox,
   Text,
 } from "@artsy/palette"
@@ -90,6 +90,7 @@ export const ArtworkDetailsAdditionalInfo: React.FC<ArtworkDetailsAdditionalInfo
       ),
     },
     {
+      // TODO:
       title: "Condition",
       value: canRequestLotConditionsReport ? (
         <RequestConditionReportQueryRenderer artworkID={internalID} />
@@ -123,31 +124,27 @@ export const ArtworkDetailsAdditionalInfo: React.FC<ArtworkDetailsAdditionalInfo
   }
 
   return (
-    <StackableBorderBox p={2}>
-      <Grid>
+    <StackableBorderBox flexDirection="column">
+      <Join separator={<Spacer mt={0.5} />}>
         {displayItems.map(({ title, value }, index) => (
-          <Row
-            key={`artwork-details-${index}`}
-            pb={index === displayItems.length - 1 ? 0 : 1}
-          >
-            <Col xs={12} sm={6} md={6} lg={3}>
-              <Text variant="mediumText" pr={2}>
-                {title}
-              </Text>
-            </Col>
+          <Flex as="dl" key={title + index}>
+            <Text as="dt" variant="xs" width={150} pr={2}>
+              {title}
+            </Text>
 
-            <Col xs={12} sm={6} md={6} lg={9}>
-              <HTML variant="text" color="black60">
+            <dd>
+              <HTML variant="xs" color="black60">
+                {/* TODO: not sure why this check is here */}
                 {React.isValidElement(value) ? (
                   value
                 ) : (
                   <ReadMore maxChars={140} content={value as string} />
                 )}
               </HTML>
-            </Col>
-          </Row>
+            </dd>
+          </Flex>
         ))}
-      </Grid>
+      </Join>
     </StackableBorderBox>
   )
 }

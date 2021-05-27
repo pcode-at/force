@@ -23,11 +23,9 @@ export class ArtworkSidebarSizeInfo extends React.Component<
     }
     return (
       <Box color="black60">
-        {/* @ts-expect-error STRICT_NULL_CHECK */}
-        {dimensions.in && <Text variant="caption">{dimensions.in}</Text>}
-        {/* @ts-expect-error STRICT_NULL_CHECK */}
-        {dimensions.cm && <Text variant="caption">{dimensions.cm}</Text>}
-        {edition_of && <Text variant="caption">{edition_of}</Text>}
+        {dimensions?.in && <Text variant="xs">{dimensions.in}</Text>}
+        {dimensions?.cm && <Text variant="xs">{dimensions.cm}</Text>}
+        {edition_of && <Text variant="xs">{edition_of}</Text>}
       </Box>
     )
   }

@@ -7,9 +7,11 @@ import * as Schema from "v2/Artsy/Analytics/Schema"
 import React, { SFC, useContext } from "react"
 import { createFragmentContainer, graphql } from "react-relay"
 import { data as sd } from "sharify"
-
 import { ArtworkSidebarExtraLinks_artwork } from "v2/__generated__/ArtworkSidebarExtraLinks_artwork.graphql"
 import { Mediator } from "lib/mediator"
+
+// FIXME:
+// - This entire component is a disaster
 
 export interface ArtworkSidebarExtraLinksProps {
   artwork: ArtworkSidebarExtraLinks_artwork

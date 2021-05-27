@@ -19811,6 +19811,13 @@ use-cursor@^1.2.2:
   dependencies:
     map-cursor-to-max "^1.0.0"
 
+use-cursor@^1.2.3:
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/use-cursor/-/use-cursor-1.2.3.tgz#df169f6d160fc4f6a00ff787aafa1d4ace0eccdc"
+  integrity sha512-xSm2bDLnRpdupZTfWPmUHU1ZipxVh/p0fPsrF9wkH59MslWdYUK4xq4gAxL3nmVSEyfly3q65FcHYdyqTK0iIg==
+  dependencies:
+    map-cursor-to-max "^1.0.0"
+
 use-deep-compare-effect@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/use-deep-compare-effect/-/use-deep-compare-effect-1.2.0.tgz#41a52b3dea028c082b57e35050427b482237eb47"

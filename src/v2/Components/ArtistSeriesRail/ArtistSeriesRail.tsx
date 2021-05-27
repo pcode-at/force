@@ -1,4 +1,4 @@
-import { Shelf, Text } from "@artsy/palette"
+import { Shelf, Spacer, Text } from "@artsy/palette"
 import React from "react"
 import { createFragmentContainer, graphql } from "react-relay"
 import { ArtistSeriesRail_artist } from "v2/__generated__/ArtistSeriesRail_artist.graphql"
@@ -10,12 +10,14 @@ interface Props {
   artist: ArtistSeriesRail_artist
   title?: string
   contextModule: ContextModule
+  showProgress?: boolean
 }
 
 const ArtistSeriesRail: React.FC<Props> = ({
   artist,
   contextModule,
   title,
+  showProgress,
 }) => {
   if (!artist) return null
 
@@ -24,11 +26,13 @@ const ArtistSeriesRail: React.FC<Props> = ({
 
   return (
     <>
-      <Text variant="lg" as="h3" mb={2}>
+      <Text variant="lg" as="h3">
         {title ?? "Artist Series"}
       </Text>
 
-      <Shelf showProgress={false}>
+      <Spacer mt={4} />
+
+      <Shelf showProgress={showProgress}>
         {series.map((node, index) => {
           return (
             <ArtistSeriesItem

@@ -49,39 +49,43 @@ export class ArtworkSidebar extends Component<ArtworkSidebarProps> {
     return (
       <ArtworkSidebarContainer data-test={ContextModule.artworkSidebar}>
         <Artists artwork={artwork} />
-        <Spacer mb={2} />
+
+        <Spacer mt={2} />
+
         <Metadata artwork={artwork} />
 
+        {/* TODO: */}
         {artwork.is_in_auction ? (
-          <React.Fragment>
-            <Spacer mb={2} />
+          <>
+            <Spacer mt={2} />
             <AuctionPartnerInfo artwork={artwork} />
             <CurrentBidInfo artwork={artwork} />
             <BidAction artwork={artwork} me={me} />
-            {/* @ts-expect-error STRICT_NULL_CHECK */}
-            {!artwork.sale.is_closed && (
-              <Box py={2}>
-                {/* @ts-expect-error STRICT_NULL_CHECK */}
+
+            {artwork.sale && !artwork.sale?.is_closed && (
+              <>
+                <Spacer mt={2} />
                 <AuctionTimer sale={artwork.sale} />
-              </Box>
+              </>
             )}
-          </React.Fragment>
+          </>
         ) : (
-          <React.Fragment>
-            <Spacer mb={3} />
+          <>
+            <Spacer mt={2} />
             <Commercial artwork={artwork} />
             <PartnerInfo artwork={artwork} />
-          </React.Fragment>
+          </>
         )}
 
-        <TrustSignalsContainer>
+        {/* TODO: */}
+        {/* <TrustSignalsContainer>
           <AuthenticityCertificate artwork={artwork} />
           <SecurePayment artwork={artwork} />
           <VerifiedSeller artwork={artwork} />
           <BuyerGuarantee artwork={artwork} />
-        </TrustSignalsContainer>
+        </TrustSignalsContainer> */}
 
-        <ExtraLinks artwork={artwork} />
+        {/* <ExtraLinks artwork={artwork} /> */}
       </ArtworkSidebarContainer>
     )
   }

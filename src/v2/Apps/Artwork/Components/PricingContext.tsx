@@ -74,6 +74,7 @@ export class PricingContext extends React.Component<PricingContextProps> {
 
   render() {
     const { artwork } = this.props
+
     if (!artwork.pricingContext) {
       return null
     }

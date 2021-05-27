@@ -15,13 +15,14 @@ export class ArtworkSidebarTitleInfo extends React.Component<
     const { artwork } = this.props
     return (
       <Box color="black60">
-        <Text variant="caption" as="h2">
+        <Text variant="xs" as="h2">
           <i>{artwork.title}</i>
           {artwork.date &&
             artwork.date.replace(/\s+/g, "").length > 0 &&
             ", " + artwork.date}
         </Text>
-        {artwork.medium && <Text variant="caption">{artwork.medium}</Text>}
+
+        {artwork.medium && <Text variant="xs">{artwork.medium}</Text>}
       </Box>
     )
   }

@@ -85,20 +85,24 @@ export const OtherWorks = track()(
     return (
       <>
         {gridsToShow && gridsToShow.length > 0 && (
-          <Join separator={<Spacer my={3} />}>
+          <Join separator={<Spacer mt={6} />}>
             {gridsToShow.map((grid, index) => {
               const contextModule = contextGridTypeToV2ContextModule(
                 // @ts-expect-error STRICT_NULL_CHECK
                 grid.__typename
               )
+
               return (
                 <Box key={`Grid-${index}`} data-test={contextModule}>
                   {/* @ts-expect-error STRICT_NULL_CHECK */}
                   <Header title={grid.title} buttonHref={grid.ctaHref} />
+
+                  <Spacer mt={4} />
+
                   <ArtworkGrid
                     // @ts-expect-error STRICT_NULL_CHECK
                     artworks={grid.artworksConnection}
-                    columnCount={[2, 3, 4]}
+                    columnCount={[2, 3, 4, 4]}
                     preloadImageCount={0}
                     mediator={props.mediator}
                     contextModule={contextModule}
@@ -118,17 +122,26 @@ export const OtherWorks = track()(
             })}
           </Join>
         )}
+
         {!(
           context &&
           context.__typename === "ArtworkContextAuction" &&
           !(sale && sale.is_closed)
         ) && (
-          <Box mt={3}>
+          <>
+            <Spacer mt={6} />
+
             <RelatedWorksArtworkGrid artwork={props.artwork} />
-          </Box>
+          </>
         )}
+
         {context && context.__typename === "ArtworkContextAuction" && (
-          <OtherAuctions />
+          <>
+            {/* TODO: */}
+            <Spacer mt={6} />
+
+            <OtherAuctions />
+          </>
         )}
       </>
     )
