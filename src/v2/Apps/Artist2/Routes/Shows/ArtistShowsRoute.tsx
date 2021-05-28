@@ -1,4 +1,4 @@
-import { Join, Spacer, Text } from "@artsy/palette"
+import { Join, Spacer } from "@artsy/palette"
 import React from "react"
 import { createFragmentContainer, graphql } from "react-relay"
 import { ArtistShowsRoute_viewer } from "v2/__generated__/ArtistShowsRoute_viewer.graphql"
