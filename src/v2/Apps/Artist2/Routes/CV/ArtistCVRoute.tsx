@@ -14,21 +14,15 @@ const ArtistCVRoute: React.FC<ArtistCVRouteProps> = ({ viewer }) => {
       <Join separator={<Spacer mb={4} />}>
         <ArtistCVGroupRefetchContainer
           artist={viewer.soloShows!}
-          title="Current Shows"
-          sort="END_AT_ASC"
-          status="running"
+          title="Solo Shows"
         />
         <ArtistCVGroupRefetchContainer
           artist={viewer.groupShows!}
           title="Upcoming Shows"
-          sort="START_AT_ASC"
-          status="upcoming"
         />
         <ArtistCVGroupRefetchContainer
           artist={viewer.fairBooths!}
           title="Upcoming Shows"
-          sort="START_AT_ASC"
-          status="upcoming"
         />
       </Join>
     </>

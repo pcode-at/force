@@ -1,12 +1,23 @@
-import { Text, Flex, Box, Image } from "@artsy/palette"
+import { groupBy } from "lodash"
 import React from "react"
+import { RouterLink } from "v2/Artsy/Router/RouterLink"
+import { extractNodes } from "v2/Utils/extractNodes"
+import { ArtistCVGroup_artist } from "v2/__generated__/ArtistCVGroup_artist.graphql"
+import {
+  Text,
+  Box,
+  GridColumns,
+  Column,
+  Button,
+  Spacer,
+  Join,
+} from "@artsy/palette"
 import {
   createPaginationContainer,
   graphql,
   RelayPaginationProp,
 } from "react-relay"
-import { extractNodes } from "v2/Utils/extractNodes"
-import { ArtistCVGroup_artist } from "v2/__generated__/ArtistCVGroup_artist.graphql"
+import { useState } from "react"
 
 const REFETCH_PAGE_SIZE = 10
 
@@ -14,18 +25,22 @@ interface ArtistCVGroupProps {
   artist: ArtistCVGroup_artist
   relay: RelayPaginationProp
   title: string
-  sort: string
-  status: string
 }
 
 const ArtistCVGroup: React.FC<ArtistCVGroupProps> = ({
   artist,
   relay,
-  sort,
-  status,
+  title,
 }) => {
-  const loadAfter = cursor => {
+  const [isLoading, setIsLoading] = useState(false)
+  const hasMore = artist.showsConnection?.pageInfo.hasNextPage
+
+  const loadMore = () => {
+    setIsLoading(true)
+
     relay.loadMore(REFETCH_PAGE_SIZE, error => {
+      setIsLoading(false)
+
       if (error) {
         console.error(error)
       }
@@ -38,7 +53,84 @@ const ArtistCVGroup: React.FC<ArtistCVGroupProps> = ({
     return null
   }
 
-  return <></>
+  const groupedByYear = groupBy(nodes, show => show.startAt)
+
+  return (
+    <>
+      <Join separator={<Spacer my={4} />}>
+        {Object.keys(groupedByYear)
+          .sort()
+          .reverse()
+          .map((year, index) => {
+            const isFirst = index === 0
+            const yearGroup = groupedByYear[year]
+
+            return (
+              <>
+                <GridColumns key={index}>
+                  <Column span={2}>
+                    {isFirst && <Text variant="lg">{title}</Text>}
+                  </Column>
+
+                  <Column span={2}>
+                    <Text variant="md" textAlign="right" pr={4}>
+                      {year}
+                    </Text>
+                  </Column>
+
+                  <Column span={5}>
+                    {yearGroup.map(show => {
+                      return (
+                        <Box mb={1}>
+                          <Text variant="md" display="inline">
+                            {show.href ? (
+                              <RouterLink to={show.href}>
+                                {show.name}
+                              </RouterLink>
+                            ) : (
+                              <>{show.name}</>
+                            )}
+
+                            {show.partner && (
+                              <>
+                                ,{" "}
+                                {show.partner.href ? (
+                                  <RouterLink to={show.partner.href}>
+                                    {show.partner.name}
+                                  </RouterLink>
+                                ) : (
+                                  <span>{show.partner.name}</span>
+                                )}
+                              </>
+                            )}
+                          </Text>
+                        </Box>
+                      )
+                    })}
+                  </Column>
+                </GridColumns>
+              </>
+            )
+          })}
+      </Join>
+
+      {hasMore && (
+        <GridColumns>
+          <Column start={5}>
+            <Button
+              variant="secondaryGray"
+              size="medium"
+              my={1}
+              loading={isLoading}
+              onClick={loadMore}
+            >
+              Load More
+            </Button>
+          </Column>
+        </GridColumns>
+      )}
+    </>
+  )
 }
 
 export const ArtistCVGroupRefetchContainer = createPaginationContainer(
