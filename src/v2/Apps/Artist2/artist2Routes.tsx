@@ -193,7 +193,7 @@ export const artist2Routes: AppRouteConfig[] = [
         query: graphql`
           query artist2Routes_ShowsQuery($artistID: String!) {
             viewer {
-              ...Shows_viewer
+              ...ArtistShowsRoute_viewer
             }
           }
         `,
